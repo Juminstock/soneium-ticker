@@ -1,0 +1,13 @@
+{
+  "name": "soneium-ticker",
+  "module": "index.ts",
+  "type": "commonjs",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/bun": "latest",
+    "hardhat": "^2.22.18"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
