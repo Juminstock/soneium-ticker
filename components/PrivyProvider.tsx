@@ -11,7 +11,7 @@ export default function PrivyProviderWrapper({ children }: { children: React.Rea
   return (
     <PrivyProvider
       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
-      onSuccess={() => router.push("/minter")}
+      // onSuccess={() => router.push("/minter")}
       config={{
         loginMethods: ["google", "twitter", "wallet"],
         appearance: {
@@ -24,4 +24,3 @@ export default function PrivyProviderWrapper({ children }: { children: React.Rea
     </PrivyProvider>
   )
 }
-
