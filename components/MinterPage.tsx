@@ -4,15 +4,16 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Sparkles, Wallet } from "lucide-react"
 import ParticleBackground from "./ParticleBackground"
-import { usePrivy } from "@privy-io/react-auth"
+import { usePrivy, useUser } from "@privy-io/react-auth"
 import { useRouter } from "next/navigation"
 
 export default function MinterPage() {
   const [mounted, setMounted] = useState(false)
-  const { user, authenticated, logout } = usePrivy()
+  const { authenticated, logout } = usePrivy()
   const router = useRouter()
   const [minting, setMinting] = useState(false)
   const [nftImage, setNftImage] = useState<string | null>(null)
+  const {user, refreshUser} = useUser();
 
   useEffect(() => {
     setMounted(true)
@@ -34,7 +35,7 @@ export default function MinterPage() {
           options
         )
         const data = await response.json()
-        setNftImage(data.nft.display_image_url || data.nft.image_url) // Usa la imagen disponible
+        setNftImage(data.nft.display_image_url || data.nft.image_url)
       } catch (error) {
         console.error("Error fetching NFT:", error)
       }
@@ -64,10 +65,11 @@ export default function MinterPage() {
       <div className="container px-4 mx-auto z-10 flex flex-col items-center justify-center space-y-12 py-8">
         <div className="w-full flex justify-between items-center mb-8">
           <img
+            src={"https://i.pravatar.cc/150"}
             alt="User Avatar"
             className="w-12 h-12 rounded-full"
           />
-          <div className="flex items-center space-x-2 bg-gray-800 px-4 py-2 rounded-full">
+          <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-blue-600 px-4 py-2 rounded-full">
             <Wallet size={20} />
             <span>
               {user?.wallet?.address
@@ -84,10 +86,18 @@ export default function MinterPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          ¡Obtén tu NFT aquí!
+          ¡Te has ganado tu NFT súper exclusivo!
         </motion.h1>
+        <motion.p
+          className="text-1xl md:text-2xl font-extralight text-center leading-tight"
+          style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          Gracias por haber participado en el meetup de Astar Network & Soneium. Reclama aquí el NFT por tu asistencia 👇🏼
+        </motion.p>
 
-        {/* Contenedor de la imagen del NFT */}
         <motion.div
           className="w-full max-w-md aspect-square rounded-2xl overflow-hidden relative"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -113,11 +123,11 @@ export default function MinterPage() {
           onClick={mintNFT}
           disabled={minting}
         >
-          {minting ? "Minting..." : "Mint NFT"}
+          {minting ? "Mintieando.." : "¡Obtén tu NFT aquí!"}
         </motion.button>
 
-        <button onClick={logout} className="mt-4 text-sm text-gray-400 hover:text-white">
-          Logout
+        <button onClick={logout} className="mt-4 text-lg font-bold text-gray-400 hover:text-white">
+          Cerrar sesión
         </button>
       </div>
     </div>
