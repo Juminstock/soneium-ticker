@@ -6,19 +6,13 @@ import { Sparkles, Wallet } from "lucide-react"
 import ParticleBackground from "./ParticleBackground"
 import { usePrivy } from "@privy-io/react-auth"
 import { useRouter } from "next/navigation"
-import { Alchemy, Network } from "alchemy-sdk"
-
-// Initialize Alchemy SDK
-const alchemy = new Alchemy({
-  apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
-  network: Network.ETH_GOERLI, // Use the appropriate network
-})
 
 export default function MinterPage() {
   const [mounted, setMounted] = useState(false)
   const { user, authenticated, logout } = usePrivy()
   const router = useRouter()
   const [minting, setMinting] = useState(false)
+  const [nftImage, setNftImage] = useState<string | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -27,23 +21,37 @@ export default function MinterPage() {
     }
   }, [authenticated, router])
 
+  useEffect(() => {
+    const fetchNFT = async () => {
+      try {
+        const options = {
+          method: "GET",
+          headers: { accept: "application/json", "x-api-key": "e05c9e3b321b4102b059229efa050bc5" },
+        }
+
+        const response = await fetch(
+          "https://testnets-api.opensea.io/api/v2/chain/amoy/contract/0x37c0d841e4559ee0408b7decdf928c2f797af48b/nfts/164",
+          options
+        )
+        const data = await response.json()
+        setNftImage(data.nft.display_image_url || data.nft.image_url) // Usa la imagen disponible
+      } catch (error) {
+        console.error("Error fetching NFT:", error)
+      }
+    }
+
+    fetchNFT()
+  }, [])
+
   if (!mounted || !authenticated) return null
 
   const mintNFT = async () => {
     setMinting(true)
     try {
-      // This is a placeholder for the actual minting process
-      // You would need to implement the actual NFT minting logic here
-      // using OpenSea API or your own smart contract
-
-      // For demonstration, we'll just wait for 2 seconds
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      // After minting, redirect to congratulations page
       router.push("/congratulations")
     } catch (error) {
       console.error("Error minting NFT:", error)
-      alert("Failed to mint NFT. Please try again.")
+      alert("Error al mintear el NFT, intenta de nuevo.")
     } finally {
       setMinting(false)
     }
@@ -56,7 +64,6 @@ export default function MinterPage() {
       <div className="container px-4 mx-auto z-10 flex flex-col items-center justify-center space-y-12 py-8">
         <div className="w-full flex justify-between items-center mb-8">
           <img
-            src={user?.avatarUrl || "/placeholder-avatar.png"}
             alt="User Avatar"
             className="w-12 h-12 rounded-full"
           />
@@ -77,9 +84,10 @@ export default function MinterPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Mint Your NFT
+          ¡Obtén tu NFT aquí!
         </motion.h1>
 
+        {/* Contenedor de la imagen del NFT */}
         <motion.div
           className="w-full max-w-md aspect-square rounded-2xl overflow-hidden relative"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -87,14 +95,11 @@ export default function MinterPage() {
           transition={{ duration: 0.8, delay: 0.3 }}
           whileHover={{ scale: 1.02 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 opacity-80 rounded-2xl"></div>
-          <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-medium">
-            <div className="p-4 text-center">
-              <Sparkles className="w-12 h-12 mx-auto mb-4 animate-pulse" />
-              <p>NFT Preview</p>
-            </div>
-          </div>
-          <div className="absolute inset-0 shadow-[0_0_15px_5px_rgba(124,58,237,0.5)] rounded-2xl"></div>
+          {nftImage ? (
+            <img src={nftImage} alt="NFT" className="w-full h-full object-cover rounded-2xl" />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 opacity-80 rounded-2xl"></div>
+          )}
         </motion.div>
 
         <motion.button
@@ -118,4 +123,3 @@ export default function MinterPage() {
     </div>
   )
 }
-

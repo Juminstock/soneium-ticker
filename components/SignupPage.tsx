@@ -58,7 +58,7 @@ export default function SignupPage() {
           whileTap={{ scale: 0.95 }}
           onClick={login}
         >
-          {authenticated ? "¡Mintea tu NFT!" : "¡Regístrate ahora!"}
+          {authenticated ? "¡Obtén tu NFT aquí!" : "¡Regístrate ahora!"}
         </motion.button>
       </div>
     </div>

@@ -1,15 +1,12 @@
 import type React from "react"
 import "./globals.css"
-import { Inter } from "next/font/google"
 import type { Metadata } from "next"
 import PrivyProviderWrapper from "@/components/PrivyProvider"
 
-const inter = Inter({ subsets: ["latin"] })
-
 export const metadata: Metadata = {
-  title: "Astar Network and Soneium in Latin America",
-  description: "Get your NFT soon!",
-    generator: 'v0.dev'
+  title: "Soneium Ticket Maker",
+  description: "App for minting NFTs as tickets for Soneium events",
+    generator: 'Carlos Rodríguez - @Juminstock'
 }
 
 export default function RootLayout({
@@ -27,13 +24,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={inter.className}>
+      <body>
         <PrivyProviderWrapper>{children}</PrivyProviderWrapper>
       </body>
     </html>
   )
 }
-
-
-
-import './globals.css'
