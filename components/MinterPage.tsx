@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Sparkles, Wallet } from "lucide-react"
+import { Sparkles, Wallet, Copy } from "lucide-react"
 import ParticleBackground from "./ParticleBackground"
 import { usePrivy, useUser } from "@privy-io/react-auth"
 import { useRouter } from "next/navigation"
@@ -14,6 +14,7 @@ export default function MinterPage() {
   const [minting, setMinting] = useState(false)
   const [nftImage, setNftImage] = useState<string | null>(null)
   const {user, refreshUser} = useUser();
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -58,6 +59,14 @@ export default function MinterPage() {
     }
   }
 
+  const copyToClipboard = () => {
+    if (user?.wallet?.address) {
+      navigator.clipboard.writeText(user.wallet.address)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white overflow-hidden">
       <ParticleBackground />
@@ -76,6 +85,12 @@ export default function MinterPage() {
                 ? `${user.wallet.address.slice(0, 6)}...${user.wallet.address.slice(-4)}`
                 : "No wallet connected"}
             </span>
+            {user?.wallet?.address && (
+              <button onClick={copyToClipboard} className="text-white hover:text-gray-300">
+                <Copy size={18} />
+              </button>
+            )}
+            {copied && <span className="text-green-400 text-sm">Copiado</span>}
           </div>
         </div>
 
