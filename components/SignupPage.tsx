@@ -5,16 +5,33 @@ import { motion } from "framer-motion"
 import { Sparkles } from "lucide-react"
 import ParticleBackground from "./ParticleBackground"
 import { usePrivy } from "@privy-io/react-auth"
+import { useRouter } from "next/navigation"
 
 export default function SignupPage() {
   const [mounted, setMounted] = useState(false)
   const { login, authenticated, ready } = usePrivy()
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    if (authenticated) {
+      router.push("/minter")
+    }
+  }, [authenticated, router])
 
   if (!mounted || !ready) return null
+
+  const handleLogin = async () => {
+    setLoading(true)
+    try {
+      await login()
+    } catch (error) {
+      console.error("Error en la autenticación:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white overflow-hidden">
@@ -36,7 +53,7 @@ export default function SignupPage() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.1 }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 opacity-80 rounded-2xl"></div>
           <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-medium">
@@ -54,14 +71,14 @@ export default function SignupPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          onClick={login}
+          onClick={handleLogin}
+          disabled={loading}
         >
-          {authenticated ? "¡Obtén tu NFT aquí!" : "¡Regístrate ahora!"}
+          ¡Regístrate ahora!
         </motion.button>
       </div>
     </div>
   )
 }
-
