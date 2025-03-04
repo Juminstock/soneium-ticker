@@ -1,0 +1,8 @@
+{
+  "name": "soneium-ticker-contracts",
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@openzeppelin/contracts": "^5.2.0",
+    "hardhat": "^2.22.19"
+  }
+}
