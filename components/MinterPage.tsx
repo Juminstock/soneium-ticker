@@ -90,7 +90,7 @@ export default function MinterPage() {
                 <Copy size={18} />
               </button>
             )}
-            {copied && <span className="text-green-400 text-sm">Copiado</span>}
+            {copied && <span className="text-green-400 text-sm">¡Copiado!</span>}
           </div>
         </div>
 
