@@ -48,16 +48,33 @@ export default function MinterPage() {
   if (!mounted || !authenticated) return null
 
   const mintNFT = async () => {
-    setMinting(true)
-    try {
-      router.push("/congratulations")
-    } catch (error) {
-      console.error("Error minting NFT:", error)
-      alert("Error al mintear el NFT, intenta de nuevo.")
-    } finally {
-      setMinting(false)
+    if (!user?.wallet?.address) {
+      alert("❌ No se encontró una wallet conectada.");
+      return;
     }
-  }
+  
+    setMinting(true);
+    try {
+      const response = await fetch("/api/mint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipient: user.wallet.address }),
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        console.log("✅ Minteo exitoso:", data);
+        router.push("/congratulations");
+      } else {
+        throw new Error(data.error || "Error desconocido");
+      }
+    } catch (error) {
+      console.error("❌ Error en el minteo:", error);
+      alert("Error al mintear el NFT, intenta de nuevo.");
+    } finally {
+      setMinting(false);
+    }
+  };
 
   const copyToClipboard = () => {
     if (user?.wallet?.address) {
@@ -138,7 +155,7 @@ export default function MinterPage() {
           onClick={mintNFT}
           disabled={minting}
         >
-          {minting ? "Mintieando.." : "¡Obtén tu NFT aquí!"}
+          {minting ? "Minteando.." : "¡Obtén tu NFT aquí!"}
         </motion.button>
 
         <button onClick={logout} className="mt-4 text-lg font-bold text-gray-400 hover:text-white">
