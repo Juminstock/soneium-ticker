@@ -12,13 +12,12 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const contract = await ethers.getContractAt("SoneiumTickerLaunch", CONTRACT_ADDRESS, owner);
 
-  console.log(`🚀 Minteando NFT a ${recipientAddress}...`);
+  console.log(`🚀 Minteando NFT a ${recipientAddress}.....`);
 
   const tx = await contract.safeMint(recipientAddress);
   await tx.wait();
 
-  console.log(`✅ ¡NFT minteado exitosamente a ${recipientAddress}!`);
-  console.log(`🔗 Visualiza aquí la transacción → https://soneium-minato.blockscout.com/tx/${tx.hash}`);
+  console.log(`✅ ¡NFT minteado exitosamente! 🔗 Visualiza aquí la transacción → https://soneium-minato.blockscout.com/tx/${tx.hash}`);
 }
 
 main().catch((error) => {

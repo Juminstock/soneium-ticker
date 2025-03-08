@@ -6,15 +6,16 @@ import { Sparkles, Wallet, Copy } from "lucide-react"
 import ParticleBackground from "./ParticleBackground"
 import { usePrivy, useUser } from "@privy-io/react-auth"
 import { useRouter } from "next/navigation"
+import { useMintNFT } from "@/hooks/useMintNFT";
 
 export default function MinterPage() {
   const [mounted, setMounted] = useState(false)
   const { authenticated, logout } = usePrivy()
   const router = useRouter()
-  const [minting, setMinting] = useState(false)
   const [nftImage, setNftImage] = useState<string | null>(null)
   const {user, refreshUser} = useUser();
   const [copied, setCopied] = useState(false)
+  const { mintNFT, minting } = useMintNFT();
 
   useEffect(() => {
     setMounted(true)
@@ -46,35 +47,6 @@ export default function MinterPage() {
   }, [])
 
   if (!mounted || !authenticated) return null
-
-  const mintNFT = async () => {
-    if (!user?.wallet?.address) {
-      alert("❌ No se encontró una wallet conectada.");
-      return;
-    }
-  
-    setMinting(true);
-    try {
-      const response = await fetch("/api/mint", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ recipient: user.wallet.address }),
-      });
-  
-      const data = await response.json();
-      if (response.ok) {
-        console.log("✅ Minteo exitoso:", data);
-        router.push("/congratulations");
-      } else {
-        throw new Error(data.error || "Error desconocido");
-      }
-    } catch (error) {
-      console.error("❌ Error en el minteo:", error);
-      alert("Error al mintear el NFT, intenta de nuevo.");
-    } finally {
-      setMinting(false);
-    }
-  };
 
   const copyToClipboard = () => {
     if (user?.wallet?.address) {

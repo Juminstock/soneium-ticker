@@ -36,12 +36,13 @@
         "@radix-ui/react-toggle-group": "^1.1.1",
         "@radix-ui/react-tooltip": "^1.1.6",
         "@solana/web3.js": "latest",
-        "alchemy-sdk": "latest",
+        "alchemy-sdk": "^3.5.4",
         "autoprefixer": "^10.4.20",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cmdk": "1.0.4",
         "date-fns": "4.1.0",
+        "dotenv": "^16.4.7",
         "embla-carousel-react": "8.5.1",
         "ethers": "^6.13.5",
         "framer-motion": "latest",
@@ -513,7 +514,7 @@
 
     "agentkeepalive": ["agentkeepalive@4.6.0", "", { "dependencies": { "humanize-ms": "^1.2.1" } }, "sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ=="],
 
-    "alchemy-sdk": ["alchemy-sdk@3.5.3", "", { "dependencies": { "@ethersproject/abi": "^5.7.0", "@ethersproject/abstract-provider": "^5.7.0", "@ethersproject/bignumber": "^5.7.0", "@ethersproject/bytes": "^5.7.0", "@ethersproject/contracts": "^5.7.0", "@ethersproject/hash": "^5.7.0", "@ethersproject/networks": "^5.7.0", "@ethersproject/providers": "^5.7.0", "@ethersproject/units": "^5.7.0", "@ethersproject/wallet": "^5.7.0", "@ethersproject/web": "^5.7.0", "axios": "^1.7.4", "sturdy-websocket": "^0.2.1", "websocket": "^1.0.34" } }, "sha512-a/oGyf99f38ZJF5OARDR2kPCtlnKMnkdiaC3rij2xXr9sGQaalo0OqUOY4SnTP4mIjVgxBWT5uutNeCaMc2pwA=="],
+    "alchemy-sdk": ["alchemy-sdk@3.5.4", "", { "dependencies": { "@ethersproject/abi": "^5.7.0", "@ethersproject/abstract-provider": "^5.7.0", "@ethersproject/bignumber": "^5.7.0", "@ethersproject/bytes": "^5.7.0", "@ethersproject/contracts": "^5.7.0", "@ethersproject/hash": "^5.7.0", "@ethersproject/networks": "^5.7.0", "@ethersproject/providers": "^5.7.0", "@ethersproject/units": "^5.7.0", "@ethersproject/wallet": "^5.7.0", "@ethersproject/web": "^5.7.0", "axios": "^1.7.4", "sturdy-websocket": "^0.2.1", "websocket": "^1.0.34" } }, "sha512-Sa9JQGE5C8FdRBF/3bBq6sgrj0JKFxrt34kjekQ+iRUsU+X/wbCKxH0K85YKQhQKBnRE2oGOwOUoFcVHwsIVaA=="],
 
     "ansi-regex": ["ansi-regex@5.0.1", "", {}, "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ=="],
 
