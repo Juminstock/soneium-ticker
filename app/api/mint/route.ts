@@ -1,10 +1,11 @@
-import { ethers } from "ethers";
+import { ethers, BrowserProvider, parseUnits } from "ethers";
+import { HDNodeWallet } from "ethers/wallet";
 import { Alchemy, Network, Wallet, Utils } from "alchemy-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
-const { NEXT_PUBLIC_ALCHEMY_API_KEY, WALLET_PRIVATE_KEY, MINATO_CONTRACT_ADDRESS } = process.env;
+const { NEXT_PUBLIC_MINATO_RPC, WALLET_PRIVATE_KEY, MINATO_CONTRACT_ADDRESS, NEXT_PUBLIC_ALCHEMY_API_KEY } = process.env;
 
-if (!NEXT_PUBLIC_ALCHEMY_API_KEY || !WALLET_PRIVATE_KEY || !MINATO_CONTRACT_ADDRESS) {
+if (!NEXT_PUBLIC_MINATO_RPC || !WALLET_PRIVATE_KEY || !MINATO_CONTRACT_ADDRESS || !NEXT_PUBLIC_ALCHEMY_API_KEY) {
     throw new Error("Faltan variables de entorno requeridas.");
 }
 
@@ -13,10 +14,11 @@ const alchemy = new Alchemy({
     network: Network.SONEIUM_MINATO
 });
 
-const wallet = new Wallet(WALLET_PRIVATE_KEY);
-
 export async function POST(req: NextRequest) {
-    console.log("API endpoint ejecutándose");
+    const provider = new ethers.JsonRpcProvider(NEXT_PUBLIC_MINATO_RPC);
+    const wallet = new ethers.Wallet(WALLET_PRIVATE_KEY!, provider);
+
+    console.log(await provider.getBalance("ethers.eth"));
     
     try {
         const body = await req.json();

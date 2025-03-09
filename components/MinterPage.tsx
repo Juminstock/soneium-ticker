@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Sparkles, Wallet, Copy } from "lucide-react"
+import { Wallet, Copy } from "lucide-react"
 import ParticleBackground from "./ParticleBackground"
 import { usePrivy, useUser } from "@privy-io/react-auth"
 import { useRouter } from "next/navigation"
@@ -17,12 +17,12 @@ export default function MinterPage() {
   const [copied, setCopied] = useState(false)
   const { mintNFT, minting } = useMintNFT();
 
-  useEffect(() => {
-    setMounted(true)
+useEffect(() => {
+  setMounted(true)
     if (!authenticated) {
       router.push("/")
     }
-  }, [authenticated, router])
+}, [authenticated, router])
 
   useEffect(() => {
     const fetchNFT = async () => {
