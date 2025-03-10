@@ -13,7 +13,7 @@ export default function MinterPage() {
   const { authenticated, logout } = usePrivy()
   const router = useRouter()
   const [nftImage, setNftImage] = useState<string | null>(null)
-  const {user, refreshUser} = useUser();
+  const {user} = useUser();
   const [copied, setCopied] = useState(false)
   const { mintNFT, minting } = useMintNFT();
 
@@ -34,7 +34,7 @@ export default function MinterPage() {
         }
 
         const response = await fetch(
-          `https://api.opensea.io/api/v2/chain/soneium/contract/${contractAddress}/nfts/1`,
+          `https://testnets-api.opensea.io/api/v2/chain/soneium_minato/contract/${contractAddress}/nfts/1`,
           options
         )
         const data = await response.json()
@@ -139,7 +139,7 @@ export default function MinterPage() {
           onClick={handleMint}
           disabled={minting}
         >
-          {minting ? "Minteando.." : "¡Obtén tu NFT aquí!"}
+          {minting ? "Minteando..." : "¡Obtén tu NFT aquí!"}
         </motion.button>
 
         <button onClick={logout} className="mt-4 text-lg font-bold text-gray-400 hover:text-white">

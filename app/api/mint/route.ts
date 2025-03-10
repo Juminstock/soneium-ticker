@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 import { NextRequest, NextResponse } from "next/server";
 
-const { NEXT_PUBLIC_SONEIUM_RPC, NEXT_PUBLIC_WALLET_PRIVATE_KEY, NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS } = process.env;
+const { NEXT_PUBLIC_MINATO_RPC, NEXT_PUBLIC_WALLET_PRIVATE_KEY, NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS } = process.env;
 
-if (!NEXT_PUBLIC_SONEIUM_RPC || !NEXT_PUBLIC_WALLET_PRIVATE_KEY || !NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS) {
+if (!NEXT_PUBLIC_MINATO_RPC || !NEXT_PUBLIC_WALLET_PRIVATE_KEY || !NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS) {
     throw new Error("Faltan variables de entorno requeridas.");
 }
 
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         
         console.log("👤 Minteando NFT para:", userAddress);
         
-        const provider = new ethers.JsonRpcProvider(NEXT_PUBLIC_SONEIUM_RPC);
+        const provider = new ethers.JsonRpcProvider(NEXT_PUBLIC_MINATO_RPC);
         const wallet = new ethers.Wallet(NEXT_PUBLIC_WALLET_PRIVATE_KEY!, provider);
         
         const contractAbi = ["function safeMint(address to) public returns (uint256)"];

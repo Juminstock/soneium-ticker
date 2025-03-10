@@ -53,7 +53,7 @@ export default function SignupPage() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.02 }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 opacity-80 rounded-2xl"></div>
           <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-medium">
