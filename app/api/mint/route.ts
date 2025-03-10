@@ -1,75 +1,58 @@
-import { ethers, BrowserProvider, parseUnits } from "ethers";
-import { HDNodeWallet } from "ethers/wallet";
-import { Alchemy, Network, Wallet, Utils } from "alchemy-sdk";
+import { ethers } from "ethers";
 import { NextRequest, NextResponse } from "next/server";
 
-const { NEXT_PUBLIC_MINATO_RPC, WALLET_PRIVATE_KEY, MINATO_CONTRACT_ADDRESS, NEXT_PUBLIC_ALCHEMY_API_KEY } = process.env;
+const { NEXT_PUBLIC_MINATO_RPC, WALLET_PRIVATE_KEY, MINATO_CONTRACT_ADDRESS } = process.env;
 
-if (!NEXT_PUBLIC_MINATO_RPC || !WALLET_PRIVATE_KEY || !MINATO_CONTRACT_ADDRESS || !NEXT_PUBLIC_ALCHEMY_API_KEY) {
+if (!NEXT_PUBLIC_MINATO_RPC || !WALLET_PRIVATE_KEY || !MINATO_CONTRACT_ADDRESS) {
     throw new Error("Faltan variables de entorno requeridas.");
 }
 
-const alchemy = new Alchemy({
-    apiKey: NEXT_PUBLIC_ALCHEMY_API_KEY,
-    network: Network.SONEIUM_MINATO
-});
-
 export async function POST(req: NextRequest) {
-    const provider = new ethers.JsonRpcProvider(NEXT_PUBLIC_MINATO_RPC);
-    const wallet = new ethers.Wallet(WALLET_PRIVATE_KEY!, provider);
-
-    console.log(await provider.getBalance("ethers.eth"));
-    
     try {
         const body = await req.json();
         const { userAddress } = body;
         
         if (!userAddress) {
             return NextResponse.json(
-                { error: "Falta userAddress" },
+                { error: "Falta dirección de usuario" },
                 { status: 400 }
             );
         }
         
         console.log("👤 Minteando NFT para:", userAddress);
         
-        const nonce = await alchemy.core.getTransactionCount(wallet.address, "latest");
+        const provider = new ethers.JsonRpcProvider(NEXT_PUBLIC_MINATO_RPC);
+        const wallet = new ethers.Wallet(WALLET_PRIVATE_KEY!, provider);
         
-        const contractInterface = new ethers.Interface([
-            "function safeMint(address to) public returns (uint256)"
-        ]);
+        const contractAbi = ["function safeMint(address to) public returns (uint256)"];
         
-        const txData = contractInterface.encodeFunctionData("safeMint", [userAddress]);
+        const contract = new ethers.Contract(MINATO_CONTRACT_ADDRESS!, contractAbi, wallet);
         
-        const transaction = {
-            to: MINATO_CONTRACT_ADDRESS,
-            value: "0",
-            gasLimit: "100000",
-            maxPriorityFeePerGas: Utils.parseUnits("5", "gwei"),
-            maxFeePerGas: Utils.parseUnits("20", "gwei"),
-            nonce: nonce,
-            type: 2,
-            data: txData
-        };
+        console.log("Enviando transacción...");
+        const tx = await contract.safeMint(userAddress);
+        console.log("📨 Transacción enviada:", tx.hash);
         
-        const signedTx = await wallet.signTransaction(transaction);
-        const txResponse = await alchemy.core.sendTransaction(signedTx);
-        
-        console.log("📨 Transacción enviada:", txResponse.hash);
-        
-        const receipt = await txResponse.wait();
+        const receipt = await tx.wait();
         console.log("✅ Transacción confirmada:", receipt);
         
         return NextResponse.json({ 
             success: true, 
-            txHash: txResponse.hash 
+            txHash: tx.hash 
         });
         
-    } catch (error) {
+    } catch (error: any) {
         console.error("❌ Error en la transacción:", error);
+
+        let errorMessage = "Error desconocido en la transacción";
+        
+        if (error.reason) {
+            errorMessage = error.reason;
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
         
         return NextResponse.json(
-            { error: "Error en la transacción" },
+            { error: errorMessage },
             { status: 500 }
         );
     }
