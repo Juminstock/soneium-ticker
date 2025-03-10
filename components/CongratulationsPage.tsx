@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import ParticleBackground from "./ParticleBackground"
 import { useRouter } from "next/navigation"
-import { Wallet, Copy } from "lucide-react"
+import { Wallet, Copy, ExternalLink } from "lucide-react"
 import { usePrivy, useUser } from "@privy-io/react-auth"
 
 export default function CongratulationsPage() {
@@ -14,6 +14,7 @@ export default function CongratulationsPage() {
   const [nftImage, setNftImage] = useState<string | null>(null)
   const { user } = useUser();
   const [copied, setCopied] = useState(false)
+  const [nftOpenSeaUrl, setNftOpenSeaUrl] = useState<string | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -24,25 +25,36 @@ export default function CongratulationsPage() {
 
   useEffect(() => {
     const contractAddress = process.env.NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS || "";
-    const fetchNFT = async () => {
+    const fetchLatestNFT = async () => {
       try {
         const options = {
           method: "GET",
-          headers: { accept: "application/json", "x-api-key": process.env.NEXT_PUBLIC_OPENSEA_API_KEY || ""},
+          headers: { 
+            accept: "application/json", 
+            "x-api-key": process.env.NEXT_PUBLIC_OPENSEA_API_KEY || "" 
+          },
         }
 
         const response = await fetch(
-          `https://testnets-api.opensea.io/api/v2/chain/soneium_minato/contract/${contractAddress}/nfts/1`,
+          `https://testnets-api.opensea.io/api/v2/chain/soneium_minato/contract/${contractAddress}/nfts`,
           options
         )
         const data = await response.json()
-        setNftImage(data.nft.display_image_url || data.nft.image_url)
+
+        if (data.nfts && data.nfts.length > 0) {
+          const latestNFT = data.nfts[0]
+          setNftImage(latestNFT.display_image_url || latestNFT.image_url)
+          setNftOpenSeaUrl(latestNFT.opensea_url)
+        }
       } catch (error) {
         console.error("Error fetching NFT:", error)
       }
     }
 
-    fetchNFT()
+    fetchLatestNFT()
+    
+    const interval = setInterval(fetchLatestNFT, 5000)
+    return () => clearInterval(interval)
   }, [])
 
   if (!mounted || !authenticated) return null
@@ -115,19 +127,23 @@ export default function CongratulationsPage() {
           )}
         </motion.div>
 
-        <motion.button
-          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-lg font-bold shadow-lg"
-          style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          // onClick={}
-          // disabled={minting}
-        >
-          Link a OpenSea
-        </motion.button>
+        {nftOpenSeaUrl && (
+          <motion.a
+            href={nftOpenSeaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-lg font-bold shadow-lg flex items-center space-x-2"
+            style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span>Ver en OpenSea</span>
+            <ExternalLink size={20} />
+          </motion.a>
+        )}
 
         <button onClick={logout} className="mt-4 text-lg font-bold text-gray-400 hover:text-white">
           Cerrar sesión
@@ -137,4 +153,3 @@ export default function CongratulationsPage() {
   )
 
 }
-
