@@ -4,17 +4,17 @@ import "@nomicfoundation/hardhat-toolbox";
 const config: HardhatUserConfig = {
   networks: {
     hardhat: {},
-    minato: {
-      url: "https://soneium-minato.g.alchemy.com/v2/etZm12pLQ8B0KzV50lKmYKOsWbAW_hX5",
-      chainId: 1946,
-      from: "0x78b4fdd087eC725fb18c5fbdA4471FD1d766ba3F",
-      accounts: ["6150c316687bf456dd7c868f7f2b65f48e618e2a1e745659cdcc916ddfc5ff53"]
-    },
+    // minato: {
+    //   url: "https://rpc.minato.soneium.org/",
+    //   chainId: 1946,
+    //   from: "YOUR_WALLET_ADDRESS_HERE",
+    //   accounts: ["YOUR_PRIVATE_KEY_HERE"]
+    // },
     soneium : {
-      url: "https://soneium-mainnet.g.alchemy.com/v2/etZm12pLQ8B0KzV50lKmYKOsWbAW_hX5",
+      url: "https://rpc.soneium.org/",
       chainId: 1868,
-      from: "0x78b4fdd087eC725fb18c5fbdA4471FD1d766ba3F",
-      accounts: ["6150c316687bf456dd7c868f7f2b65f48e618e2a1e745659cdcc916ddfc5ff53"]
+      from: "0xf43163cAF5aB5C8c179D0753c02eC76C885c8498",
+      accounts: ["0x6aff67fd80f5c975b00c03363895909db46a8fb3fd6f0298071821acd0ba3e28"]
     }
   },
   solidity: "0.8.28",

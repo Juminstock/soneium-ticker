@@ -4,7 +4,7 @@
   "author": {
     "name": "Carlos Rodriguez - @juminstock"
   },
-  "description": "Soneium Ticket Dispenser for NFT",
+  "description": "Soneium Ticket Dispenser for NFTs",
   "dependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@openzeppelin/contracts": "^5.2.0",

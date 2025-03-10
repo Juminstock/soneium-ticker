@@ -25,15 +25,16 @@ useEffect(() => {
 }, [authenticated, router])
 
   useEffect(() => {
+    const contractAddress = process.env.NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS || "";
     const fetchNFT = async () => {
       try {
         const options = {
           method: "GET",
-          headers: { accept: "application/json", "x-api-key": "e05c9e3b321b4102b059229efa050bc5" },
+          headers: { accept: "application/json", "x-api-key": process.env.NEXT_PUBLIC_OPENSEA_API_KEY || ""},
         }
 
         const response = await fetch(
-          "https://testnets-api.opensea.io/api/v2/chain/amoy/contract/0x37c0d841e4559ee0408b7decdf928c2f797af48b/nfts/164",
+          `https://api.opensea.io/api/v2/chain/soneium/contract/${contractAddress}/nfts/1`,
           options
         )
         const data = await response.json()
@@ -90,7 +91,7 @@ useEffect(() => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          ¡Te has ganado tu NFT súper exclusivo!
+          ¡Te ganaste un NFT por participar en el meetup!
         </motion.h1>
         <motion.p
           className="text-1xl md:text-2xl font-extralight text-center leading-tight"
@@ -99,7 +100,7 @@ useEffect(() => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Gracias por haber participado en el meetup de Astar Network & Soneium. Reclama aquí el NFT por tu asistencia 👇🏼
+          Gracias por haber participado en el meetup de Astar Network & Soneium en Valencia 🇻🇪. ¡Reclámalo aquí! 👇🏼
         </motion.p>
 
         <motion.div
