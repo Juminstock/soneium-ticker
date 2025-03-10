@@ -4,17 +4,17 @@ import "@nomicfoundation/hardhat-toolbox";
 const config: HardhatUserConfig = {
   networks: {
     hardhat: {},
-    // minato: {
-    //   url: "https://rpc.minato.soneium.org/",
-    //   chainId: 1946,
-    //   from: "YOUR_WALLET_ADDRESS_HERE",
-    //   accounts: ["YOUR_PRIVATE_KEY_HERE"]
-    // },
+    minato: {
+      url: "https://rpc.minato.soneium.org/",
+      chainId: 1946,
+      from: "YOUR_WALLET_ADDRESS_HERE",
+      accounts: ["YOUR_PRIVATE_KEY_HERE"]
+    },
     soneium : {
       url: "https://rpc.soneium.org/",
       chainId: 1868,
-      from: "0xf43163cAF5aB5C8c179D0753c02eC76C885c8498",
-      accounts: 
+      from: "YOUR_WALLET_ADDRESS_HERE",
+      accounts: ["YOUR_PRIVATE_KEY_HERE"] 
     }
   },
   solidity: "0.8.28",

@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 import { NextRequest, NextResponse } from "next/server";
 
-const { NEXT_PUBLIC_SONEIUM_RPC, NEXT_PUBLIC_WALLET_PRIVATE_KEY, NEXT_SONEIUM_CONTRACT_ADRESS } = process.env;
+const { NEXT_PUBLIC_SONEIUM_RPC, NEXT_PUBLIC_WALLET_PRIVATE_KEY, NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS } = process.env;
 
-if (!NEXT_PUBLIC_SONEIUM_RPC || !NEXT_PUBLIC_WALLET_PRIVATE_KEY || !NEXT_SONEIUM_CONTRACT_ADRESS) {
+if (!NEXT_PUBLIC_SONEIUM_RPC || !NEXT_PUBLIC_WALLET_PRIVATE_KEY || !NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS) {
     throw new Error("Faltan variables de entorno requeridas.");
 }
 
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         
         const contractAbi = ["function safeMint(address to) public returns (uint256)"];
         
-        const contract = new ethers.Contract(NEXT_SONEIUM_CONTRACT_ADRESS!, contractAbi, wallet);
+        const contract = new ethers.Contract(NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS!, contractAbi, wallet);
         
         console.log("Enviando transacción...");
         const tx = await contract.safeMint(userAddress);

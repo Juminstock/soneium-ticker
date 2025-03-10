@@ -17,12 +17,12 @@ export default function MinterPage() {
   const [copied, setCopied] = useState(false)
   const { mintNFT, minting } = useMintNFT();
 
-useEffect(() => {
-  setMounted(true)
+  useEffect(() => {
+    setMounted(true)
     if (!authenticated) {
       router.push("/")
     }
-}, [authenticated, router])
+  }, [authenticated, router])
 
   useEffect(() => {
     const contractAddress = process.env.NEXT_PUBLIC_SONEIUM_CONTRACT_ADDRESS || "";
@@ -56,6 +56,17 @@ useEffect(() => {
       setTimeout(() => setCopied(false), 2000)
     }
   }
+  
+  const handleMint = async () => {
+    try {
+      const success = await mintNFT();
+      if (success) {
+        router.push("/congratulations");
+      }
+    } catch (error) {
+      console.error("Error al mintear NFT:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white overflow-hidden">
@@ -100,7 +111,7 @@ useEffect(() => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Gracias por haber participado en el meetup de Astar Network & Soneium en Valencia 🇻🇪. ¡Reclámalo aquí! 👇🏼
+          Gracias por haber participado en el meetup de Astar Network & Soneium en Valencia 🇻🇪. ¡Reclama tu NFT aquí! 👇🏼
         </motion.p>
 
         <motion.div
@@ -125,7 +136,7 @@ useEffect(() => {
           transition={{ duration: 0.8, delay: 0.6 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={mintNFT}
+          onClick={handleMint}
           disabled={minting}
         >
           {minting ? "Minteando.." : "¡Obtén tu NFT aquí!"}
