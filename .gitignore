@@ -28,3 +28,6 @@ next-env.d.ts
 
 # TODO file
 TODO.md
+
+# Event metadata
+metadata/
