@@ -1,8 +1,8 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const CONTRACT_ADDRESS = "0x15f22E194FcEDd1CF14D2411A36a52FF55d279c0";
-  const recipientAddress = "0xf43163cAF5aB5C8c179D0753c02eC76C885c8498";
+  const CONTRACT_ADDRESS = "YOUR_CONTRACT_ADDRESS_HERE";
+  const recipientAddress = "THE_ADDRESS_FOR_MINT_A_NFT";
 
   if (!recipientAddress || !ethers.isAddress(recipientAddress)) {
     console.error("❌ Debes proporcionar una dirección válida como argumento.");

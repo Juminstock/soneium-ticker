@@ -7,12 +7,12 @@ import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/
 import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-contract SoneiumTickerLaunch is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
+contract astarSoneiumColombia is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     uint256 private _nextTokenId = 1;
     string private constant METADATA_URI = "https://gateway.pinata.cloud/ipfs/bafkreifymub2uzk3thokevsc3fokwo2dkk4peih6yeyq3p2gluo3bkpgzq";
 
     constructor(address initialOwner)
-        ERC721("SoneiumTickerLaunch", "STL")
+        ERC721("Astar & Soneium Colombia", "ASC")
         Ownable(initialOwner)
     {}
 
