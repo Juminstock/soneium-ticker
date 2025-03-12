@@ -36,7 +36,7 @@ export default function CongratulationsPage() {
         }
 
         const response = await fetch(
-          `https://testnets-api.opensea.io/api/v2/chain/soneium_minato/contract/${contractAddress}/nfts`,
+          `https://api.opensea.io/api/v2/chain/soneium/contract/${contractAddress}/nfts`,
           options
         )
         const data = await response.json()
