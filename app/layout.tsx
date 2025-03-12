@@ -4,8 +4,8 @@ import type { Metadata } from "next"
 import PrivyProviderWrapper from "@/components/PrivyProvider"
 
 export const metadata: Metadata = {
-  title: "Soneium Ticket Maker",
-  description: "App for minting NFTs as tickets for Astar & Soneium events",
+  title: "Soneium Ticket Maker 🎫",
+  description: "Web3 App for minting NFTs as tickets for Astar & Soneium events",
     generator: 'Carlos Rodríguez - @Juminstock'
 }
 

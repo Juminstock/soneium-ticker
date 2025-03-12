@@ -36,7 +36,7 @@ export function useMintNFT() {
             console.log("📨 Transacción enviada:", data.txHash);
             setTxHash(data.txHash);
             
-            console.log(`✅ ¡NFT minteado exitosamente! 🔗 Observa aquí la transacción → https://soneium-minato.blockscout.com/tx/${data.txHash}`);
+            console.log(`✅ ¡NFT minteado exitosamente! 🔗 Observa aquí la transacción → https://soneium.blockscout.com/tx/${data.txHash}`);
             
             return data.txHash;
         } catch (error: any) {

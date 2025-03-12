@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from 'next/image'
 import { motion } from "framer-motion"
 import ParticleBackground from "./ParticleBackground"
 import { useRouter } from "next/navigation"
@@ -36,7 +37,7 @@ export default function CongratulationsPage() {
         }
 
         const response = await fetch(
-          `https://testnets-api.opensea.io/api/v2/chain/soneium_minato/contract/${contractAddress}/nfts`,
+          `https://api.opensea.io/api/v2/chain/soneium/contract/${contractAddress}/nfts`,
           options
         )
         const data = await response.json()
@@ -73,10 +74,12 @@ export default function CongratulationsPage() {
 
       <div className="container px-4 mx-auto z-10 flex flex-col items-center justify-center space-y-12 py-8">
         <div className="w-full flex justify-between items-center mb-8">
-          <img
-            src={"https://i.pravatar.cc/150"}
+          <Image
+            src="/soneium-symbol-color.png"
             alt="User Avatar"
-            className="w-12 h-12 rounded-full"
+            width={48}
+            height={48}
+            className="rounded-full"
           />
           <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-blue-600 px-4 py-2 rounded-full">
             <Wallet size={20} />
