@@ -114,7 +114,7 @@ export default function MinterPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Gracias por haber participado en el meetup de Astar Network & Soneium en Bogotá 🇨🇴. ¡Reclama tu NFT aquí! 👇🏼
+          Gracias por haber participado en el meetup de Astar Network & Soneium en Medellín 🇨🇴. ¡Reclama tu NFT aquí! 👇🏼
         </motion.p>
 
         <motion.div
